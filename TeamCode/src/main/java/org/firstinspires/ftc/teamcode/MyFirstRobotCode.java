@@ -56,7 +56,10 @@ public class MyFirstRobotCode extends LinearOpMode {
             leftDrive.setPower(leftDrivePower);
             rightDrive.setPower(rightDrivePower);
 
-            if (gamepad1.y) {
+            double power = armPID.calculate(targetPosition, arm.getCurrentPosition());
+            arm.setPower(power);
+
+            /*if (gamepad1.y) {
                 arm.setTargetPosition(750);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 arm.setPower(1);
@@ -66,6 +69,15 @@ public class MyFirstRobotCode extends LinearOpMode {
                 arm.setTargetPosition(0);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 arm.setPower(1);
+            } 
+            */
+
+            if (gamepad.y) {
+                targetPosition = 750;
+            }
+
+            if (gamepad.a) {
+                targetPosition = 25;
             }
             
             if (gamepad1.right_bumper) {
@@ -79,7 +91,6 @@ public class MyFirstRobotCode extends LinearOpMode {
                 intake_roller_servo_2.setPower(0.0);
             }
 
-            double power = armPID.calculate(targetPosition, arm.getCurrentPosition());
 
             // Send a message back to the driver screen so we can see what's happening
             telemetry.addData("Left Motor Power", leftDrivePower);
